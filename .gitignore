@@ -1,3 +1,5 @@
 ./docker/db/dbdata
 
 backend/vendor
+
+.idea

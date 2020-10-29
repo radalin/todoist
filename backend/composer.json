@@ -1,12 +1,29 @@
 {
     "name": "roysimkes/todoist",
     "license": "MIT",
+    "minimum-stability": "RC",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ybelenko/slim-token-authentication",
+            "no-api": true
+        }
+    ],
     "require": {
         "php": "^7.2",
         "ext-json": "*",
         "monolog/monolog": "^2.1",
         "php-di/php-di": "^6.2",
         "slim/psr7": "^1.1",
-        "slim/slim": "^4.5"
+        "slim/slim": "^4.5",
+        "dyorg/slim-token-authentication": "dev-slim4"
+    },
+    "autoload": {
+        "psr-4": {
+            "todoist\\": [
+                "src/",
+                "generated-lib/"
+            ]
+        }
     }
 }

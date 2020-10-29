@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: "Todoist API"
+  description: ""
+  version: 0.5.0
+servers:
+  - url: "http://localhost:8888"
+    description: "Internal localHost"
+tags:
+  - name: task
+    description: Task management
+paths:
+  /tasks:
+    get:
+      tags:
+        - task
+      summary : List tasks
+      description: Return a list of tasks
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    post:
+      tags:
+        - task
+      summary: Create a new task
+      description: Create a new task
+      operationId: createTask
+      requestBody:
+        description: Create a new task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '405':
+          description: Invalid input
+      security:
+        - api_key: []
+  '/tasks/{id}':
+    delete:
+      tags:
+        - task
+      summary: Deletes a task
+      description: ''
+      operationId: deleteTask
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Pet id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid task
+        '404':
+          description: Task not found
+      security: 
+        - api_key: []
+    put:
+      tags:
+        - task
+      summary: Update an existing task
+      description: Update an existing task by Id
+      operationId: updateTask
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Task id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Invalid task
+        '404':
+          description: Task not found
+      security:
+        - api_key: []
+  '/tasks/{id}/complete':
+    post:
+      tags:
+        - task
+      summary: Completes a task
+      description: ''
+      operationId: completeTask
+      parameters:
+        - name: id
+          in: path
+          description: ID of task to complete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+      security: 
+        - api_key: []
+  
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        desc:
+          type: string
+        completed_at:
+          type: integer
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-TODOIST-API-KEY
+      in: header
