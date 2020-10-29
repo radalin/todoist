@@ -2,7 +2,7 @@
 
 This is a sample project to try out something different. My main purpose is:
 * Build a pipeline using:
-** Docker composer to start services
+** [+] Docker composer to start services
 ** Separate frontend and backend and use swagger for api definition (and maybe autogeranting server and client too?)
 ** Run tests after each commit
 ** Deploy it to somewhere
@@ -38,3 +38,6 @@ The above code will regenerate the generate-lib directory based on the changes y
  * PHP Backend either a simple Slim framework or maybe plain old php with some customization
  * Database section that does not reset itself once the containers rebuilt.
  * Maybe build a simple frontend service as well to show a UI etc. I might make this built-in to backend site.
+ 
+# TODOs
+* Have a migration system?

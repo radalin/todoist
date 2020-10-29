@@ -1,0 +1,1 @@
+create table if not exists tasks (id INT NOT NULL AUTO_INCREMENT, description VARCHAR(250) NOT NULL, completed_at TIMESTAMP NULL,PRIMARY KEY ( id ));

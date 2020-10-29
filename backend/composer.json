@@ -12,11 +12,13 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "ext-pdo": "*",
         "monolog/monolog": "^2.1",
         "php-di/php-di": "^6.2",
         "slim/psr7": "^1.1",
         "slim/slim": "^4.5",
-        "dyorg/slim-token-authentication": "dev-slim4"
+        "dyorg/slim-token-authentication": "dev-slim4",
+        "vlucas/phpdotenv": "^5.2"
     },
     "autoload": {
         "psr-4": {

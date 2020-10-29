@@ -34,7 +34,7 @@ class Task implements ModelInterface
     "id" : {
       "type" : "integer"
     },
-    "desc" : {
+    "description" : {
       "type" : "string"
     },
     "completed_at" : {
@@ -47,8 +47,8 @@ SCHEMA;
     /** @var int $id */
     private $id;
 
-    /** @var string $desc */
-    private $desc;
+    /** @var string $description */
+    private $description;
 
     /** @var int $completedAt */
     private $completedAt;

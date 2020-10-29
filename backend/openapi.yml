@@ -16,6 +16,7 @@ paths:
         - task
       summary : List tasks
       description: Return a list of tasks
+      operationId: getTasks
       responses:
         '200':
           description: Successful operation
@@ -147,7 +148,7 @@ components:
       properties:
         id:
           type: integer
-        desc:
+        description:
           type: string
         completed_at:
           type: integer

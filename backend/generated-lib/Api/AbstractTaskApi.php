@@ -125,7 +125,7 @@ abstract class AbstractTaskApi
     }
 
     /**
-     * GET tasksGet
+     * GET getTasks
      * Summary: List tasks
      * Notes: Return a list of tasks
      * Output-Formats: [application/json]
@@ -137,9 +137,9 @@ abstract class AbstractTaskApi
      * @return ResponseInterface
      * @throws Exception to force implementation class to override this method
      */
-    public function tasksGet(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getTasks(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        $message = "How about implementing tasksGet as a GET method in todoist\Api\TaskApi class?";
+        $message = "How about implementing getTasks as a GET method in todoist\Api\TaskApi class?";
         throw new Exception($message);
 
         $response->getBody()->write($message);

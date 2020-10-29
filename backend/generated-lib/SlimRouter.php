@@ -105,7 +105,7 @@ class SlimRouter
             'apiPackage' => 'todoist\Api',
             'classname' => 'AbstractTaskApi',
             'userClassname' => 'TaskApi',
-            'operationId' => 'tasksGet',
+            'operationId' => 'getTasks',
             'responses' => [
                 'default' => [
                     'code' => 200,
