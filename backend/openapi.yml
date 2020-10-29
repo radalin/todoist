@@ -44,8 +44,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-        '405':
-          description: Invalid input
+        '500':
+          description: Error
       security:
         - api_key: []
   '/tasks/{id}':
@@ -70,10 +70,8 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
-          description: Invalid task
-        '404':
-          description: Task not found
+        '500':
+          description: Error
       security: 
         - api_key: []
     put:
@@ -110,10 +108,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-        '400':
-          description: Invalid task
-        '404':
-          description: Task not found
+        '500':
+          description: Error
       security:
         - api_key: []
   '/tasks/{id}/complete':

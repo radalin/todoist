@@ -2,6 +2,7 @@
 namespace todoist\Api;
 
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Exception;
@@ -20,54 +21,105 @@ class TaskApi extends AbstractTaskApi
      * @var Db
      */
     protected $db;
+
     public function __construct(ContainerInterface $container = null, Db $db)
     {
         parent::__construct($container);
         $this->db = $db;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return bool
+     */
+    protected function checkAuthKey($request)
+    {
+        $headers = $request->getHeaders();
+        $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
+        return true;
+    }
+
     public function completeTask(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
+        if (!$this->checkAuthKey($request)) {
+            return $response->withStatus(500);
+        }
         $id = $args['id'];
 
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        $stmt = $this->db->conn()->prepare("UPDATE tasks SET completed_at = CURRENT_TIMESTAMP WHERE id = ?");
+        if (!$stmt->execute([$id])) {
+            return $response->withStatus(500);
+        }
+
+        return $response;
     }
 
     public function createTask(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
+        if (!$this->checkAuthKey($request)) {
+            return $response->withStatus(500);
+        }
         $body = $request->getParsedBody();
 
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        $stmt = $this->db->conn()->prepare("INSERT INTO tasks (description) VALUES (?)");
+
+        if ($stmt->execute([$body["description"]])) {
+            $lastInsertId = $this->db->conn()->lastInsertId();
+        }
+        $response->getBody()->write(json_encode([
+            "id" => $lastInsertId,
+        ]));
+        return $response;
     }
 
     public function deleteTask(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        $headers = $request->getHeaders();
-        $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
-        $id = $args['id'];
-        
+        if (!$this->checkAuthKey($request)) {
+            return $response->withStatus(500);
+        }
 
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        $id = $args['id'];
+        $stmt = $this->db->conn()->prepare("DELETE FROM tasks WHERE id = ?");
+        if (!$stmt->execute([$id])) {
+            return $response->withStatus(500);
+        }
+
+        return $response;
     }
 
     public function getTasks(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
+        if (!$this->checkAuthKey($request)) {
+            return $response->withStatus(500);
+        }
+
         $data = $this->db->conn()->query("SELECT * FROM tasks")->fetchAll();
-        $response->getBody()->write(json_encode($data));
+        $res = [];
+        foreach ($data as $d) {
+            $res[] = [
+                "id" => $d["id"],
+                "description" => $d["description"],
+                "completed_at" => $d["completed_at"]
+            ];
+        }
+        $response->getBody()->write(json_encode($res));
         return $response;
     }
 
     public function updateTask(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        $headers = $request->getHeaders();
-        $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
+        if (!$this->checkAuthKey($request)) {
+            return $response->withStatus(500);
+        }
+
         $id = $args['id'];
         $body = $request->getParsedBody();
 
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        $stmt = $this->db->conn()->prepare("UPDATE tasks SET description = ? WHERE id = ?");
+        if ($stmt->execute([$body["description"], $id])) {
+            return $response->withStatus(500);
+        }
+
+        return $response;
     }
 }

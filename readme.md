@@ -1,11 +1,19 @@
 # Introduction
 
-This is a sample project to try out something different. My main purpose is:
-* Build a pipeline using:
-** [+] Docker composer to start services
-** Separate frontend and backend and use swagger for api definition (and maybe autogeranting server and client too?)
-** Run tests after each commit
-** Deploy it to somewhere
+This is a sample project to try out something different. My main purpose is: "Build a pipeline using":
+* [+] Docker composer to start services
+* Separate frontend and backend and use swagger for api definition (and maybe autogeranting server and client too?)
+* Run tests after each commit
+* Deploy it to somewhere?
+
+I will try to focus on infrastructure a bit more then code.
+
+# TODOs
+* Have a db migration system?
+* ORM?
+* Make the api key security work
+* Make a new nginx server for frontend?
+* Prepare docker files for production perhaps?
 
 # Installation
 
@@ -21,6 +29,13 @@ Running composer install to make sure all the required php libraries are install
  cd ./backend && composer install
 ```
 
+## Frontend
+
+Run npm's install and build commands to install those
+```
+cd ./frontend && npm install && npm run build
+```
+
 ### Updating swagger server libraries
 
 ```
@@ -28,16 +43,3 @@ Running composer install to make sure all the required php libraries are install
 ```
 
 The above code will regenerate the generate-lib directory based on the changes you amde to the openapi.yml file (of course some changes might be necessary on your code as well).s
-
-# Components
- I will not focus on the code architecture but on the infrastructure. Be able to start things from ground up. Therefore I need:
- * Docker Composer file definitions for services:
- ** Backend PHP service
- ** Database service
- ** Frontend service?
- * PHP Backend either a simple Slim framework or maybe plain old php with some customization
- * Database section that does not reset itself once the containers rebuilt.
- * Maybe build a simple frontend service as well to show a UI etc. I might make this built-in to backend site.
- 
-# TODOs
-* Have a migration system?
