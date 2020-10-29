@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./docker/backend
+    volumes:
+      - ./backend/src:/var/www
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./backend/src:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    ports:
+      - "8888:80"
+    depends_on:
+      - backend
+  db:
+    build:
+      context: ./docker/db
+    environment:
+      - MYSQL_DATABASE=todoist
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypass
+      - MYSQL_ROOT_PASSWORD=root
