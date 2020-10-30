@@ -13,7 +13,7 @@ I will try to focus on infrastructure a bit more then code.
 * ORM?
 * Make the api key security work
 * Make a new nginx server for frontend?
-* Prepare docker files for production perhaps?
+* Docker multi-stage for production docker files
 
 # Installation
 
