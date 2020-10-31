@@ -2,9 +2,8 @@
 
 This is a sample project to try out something different. My main purpose is: "Build a pipeline using":
 * [+] Docker composer to start services
-* Separate frontend and backend and use swagger for api definition (and maybe autogeranting server and client too?)
-* Run tests after each commit
-* Deploy it to somewhere?
+* [+] Separate frontend and backend and use swagger for api definition and use auto generated server and client components
+* [-] Run tests after each commit (ran out of planned time)
 
 I will try to focus on infrastructure a bit more then code.
 
@@ -14,6 +13,7 @@ I will try to focus on infrastructure a bit more then code.
 * Make the api key security work
 * Make a new nginx server for frontend?
 * Docker multi-stage for production docker files
+* Setup a fixture and write some tests
 
 # Installation
 
