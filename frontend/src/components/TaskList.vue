@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-md-12">
           <h1>Todoist</h1>
-          <h3>A simple task list for you convenience</h3>
+          <!-- Yeah yeah, Emily in Paris reference... -->
+          <h3>A simple task list for ringardes</h3>
         </div>
         <hr />
       </div>
@@ -17,11 +18,13 @@
             </form>
           </div>
           <ul class="task-list">
-            <li v-for="(task, index) in tasks" :key="index">
-              <div v-if="task.completed_at == null">
-                <input type="checkbox" />{{ task.description }}
+            <li v-for="task in uncompletedTasks" :key="task.id">
+              <div>
+                <input type="checkbox" v-on:change="completeTask(task)" />{{ task.description }}
               </div>
-              <div v-if="task.completed_at != null" class="completed">
+            </li>
+            <li v-for="task in completedTasks" :key="task.id">
+              <div class="completed">
                 {{ task.description }}
                 <span class="complete_date">({{task.completed_at}})</span>
               </div>
@@ -37,9 +40,11 @@
 import { Vue } from 'vue-class-component';
 import TaskModel from "@/components/TaskModel";
 import Api from '@/components/Api';
+import moment from "moment";
 
 export default class TaskList extends Vue {
-  tasks: any[];
+  uncompletedTasks: any[];
+  completedTasks: any[];
   taskApi: any;
   newTaskForm: any;
   newTaskDescription: any;
@@ -47,7 +52,8 @@ export default class TaskList extends Vue {
   constructor(args) {
     super(args);
     this.taskApi = Api.Task;
-    this.tasks = [];
+    this.uncompletedTasks = [];
+    this.completedTasks = [];
   }
 
   beforeMount() {
@@ -57,27 +63,40 @@ export default class TaskList extends Vue {
 
   submitForm(e) {
     e.preventDefault();
-    console.log("foo", this.newTaskDescription);
     let t = new TaskModel(this.newTaskDescription);
-    this.tasks = [t].concat(this.tasks);
+    this.uncompletedTasks = [t].concat(this.uncompletedTasks);
     this.newTaskDescription = null;
     this.taskApi.createTask(t).then((data) => {
       t.id = data.data.id;
     });
   }
-  loadTasks() {
-    console.log("loading tasks")
-    this.taskApi.getTasks().then((data: any) => {
-      console.log("loaded tasks", data.data);
-      this.tasks = data.data;
-    });
+  completeTask(task) {
+    this.taskApi.completeTask(task.id).then((data) => {
+      console.log(data);
+      if (data.status == 200) {
+        // TODO: create a nice effect to move it to the bottom of the uncompletedTasks that will be completed...
+        task.completed_at = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+        var idx = this.uncompletedTasks.findIndex((e) => e.id === task.id);
+        if (idx > -1) {
+          this.uncompletedTasks.splice(idx, 1);
+        }
+        this.completedTasks = [task].concat(this.completedTasks);
+      }
+    })
   }
-  changeTaskStatus(task) {
-    if (task.completed_at != null) {
-      this.taskApi.completeTask(task.id).then(() => {
-        this.loadTasks();
-      });
-    }
+  loadTasks() {
+    console.log("loading uncompletedTasks")
+    this.taskApi.getTasks().then((data: any) => {
+      console.log("loaded uncompletedTasks", data.data);
+      for (var i = 0; i < data.data.length; i++) {
+        var item = data.data[i];
+        if (item.completed_at === null) {
+          this.uncompletedTasks.push(item);
+        } else {
+          this.completedTasks.push(item);
+        }
+      }
+    });
   }
 }
 </script>
