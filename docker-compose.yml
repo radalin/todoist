@@ -18,7 +18,7 @@ services:
       context: ./docker/nginx
     volumes:
       - ./backend:/var/www/backend
-      - ./frontend/dist:/var/www/frontend
+      - ./frontend:/var/www/frontend
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/sites/:/etc/nginx/sites-available
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
