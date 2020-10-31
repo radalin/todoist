@@ -148,6 +148,8 @@ components:
           type: string
         completed_at:
           type: integer
+        created_at:
+          type: integer
   securitySchemes:
     api_key:
       type: apiKey

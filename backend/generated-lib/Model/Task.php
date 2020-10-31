@@ -39,6 +39,9 @@ class Task implements ModelInterface
     },
     "completed_at" : {
       "type" : "integer"
+    },
+    "created_at" : {
+      "type" : "integer"
     }
   }
 }
@@ -52,6 +55,9 @@ SCHEMA;
 
     /** @var int $completedAt */
     private $completedAt;
+
+    /** @var int $createdAt */
+    private $createdAt;
 
     /**
      * Returns model schema.

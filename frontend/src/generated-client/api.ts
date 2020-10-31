@@ -43,6 +43,12 @@ export interface Task {
      * @memberof Task
      */
     completed_at?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Task
+     */
+    created_at?: number;
 }
 
 /**

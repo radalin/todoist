@@ -75,11 +75,11 @@ class SlimRouter
   }
 }',
                 ],
-                '405' => [
-                    'code' => 405,
-                    'message' => 'Invalid input',
+                '500' => [
+                    'code' => 500,
+                    'message' => 'Error',
                     'jsonSchema' => '{
-  "description" : "Invalid input"
+  "description" : "Error"
 }',
                 ],
             ],
@@ -173,18 +173,11 @@ class SlimRouter
             'userClassname' => 'TaskApi',
             'operationId' => 'deleteTask',
             'responses' => [
-                '400' => [
-                    'code' => 400,
-                    'message' => 'Invalid task',
+                '500' => [
+                    'code' => 500,
+                    'message' => 'Error',
                     'jsonSchema' => '{
-  "description" : "Invalid task"
-}',
-                ],
-                '404' => [
-                    'code' => 404,
-                    'message' => 'Task not found',
-                    'jsonSchema' => '{
-  "description" : "Task not found"
+  "description" : "Error"
 }',
                 ],
             ],
@@ -226,18 +219,11 @@ class SlimRouter
   }
 }',
                 ],
-                '400' => [
-                    'code' => 400,
-                    'message' => 'Invalid task',
+                '500' => [
+                    'code' => 500,
+                    'message' => 'Error',
                     'jsonSchema' => '{
-  "description" : "Invalid task"
-}',
-                ],
-                '404' => [
-                    'code' => 404,
-                    'message' => 'Task not found',
-                    'jsonSchema' => '{
-  "description" : "Task not found"
+  "description" : "Error"
 }',
                 ],
             ],

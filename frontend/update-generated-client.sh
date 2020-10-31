@@ -1,2 +1,3 @@
 # TODO: Make sure openapi-generator-cli is installed...
 openapi-generator-cli  generate -i ../openapi.yml -g typescript-axios -o ./src/generated-client
+npm run build --fix

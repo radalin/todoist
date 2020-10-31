@@ -94,13 +94,14 @@ class TaskApi extends AbstractTaskApi
         }
 
         // Fetch tasks, uncompleted ones first...
-        $data = $this->db->conn()->query("SELECT * FROM tasks ORDER BY IF(completed_at IS NULL, 0, 1), completed_at DESC")->fetchAll();
+        $data = $this->db->conn()->query("SELECT * FROM tasks ORDER BY IF(completed_at IS NULL, 0, 1), completed_at DESC, created_at DESC")->fetchAll();
         $res = [];
         foreach ($data as $d) {
             $res[] = [
                 "id" => $d["id"],
                 "description" => $d["description"],
-                "completed_at" => $d["completed_at"]
+                "completed_at" => $d["completed_at"],
+                "created_at" => $d["created_at"]
             ];
         }
         $response->getBody()->write(json_encode($res));
