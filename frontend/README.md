@@ -1,4 +1,4 @@
-# todoist
+# frontend
 
 ## Project setup
 ```
