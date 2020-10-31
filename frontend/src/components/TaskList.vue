@@ -35,17 +35,18 @@
 
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import {TaskApi} from '@/generated-client';
+import TaskModel from "@/components/TaskModel";
+import Api from '@/components/Api';
 
 export default class TaskList extends Vue {
   tasks: any[];
-  taskApi: TaskApi;
+  taskApi: any;
   newTaskForm: any;
   newTaskDescription: any;
 
   constructor(args) {
     super(args);
-    this.taskApi = new TaskApi();
+    this.taskApi = Api.Task;
     this.tasks = [];
   }
 
@@ -57,10 +58,12 @@ export default class TaskList extends Vue {
   submitForm(e) {
     e.preventDefault();
     console.log("foo", this.newTaskDescription);
-    this.tasks = [{description: this.newTaskDescription, completed_at: null}].concat(this.tasks);
+    let t = new TaskModel(this.newTaskDescription);
+    this.tasks = [t].concat(this.tasks);
     this.newTaskDescription = null;
-    // TODO: Implement this.
-    this.taskApi.createTask();
+    this.taskApi.createTask(t).then((data) => {
+      t.id = data.data.id;
+    });
   }
   loadTasks() {
     console.log("loading tasks")
